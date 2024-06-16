@@ -3,7 +3,6 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { AppDataSource } from "./data-source"
 import route from "./route"
-import "reflect-metadata"
 
 AppDataSource.initialize()
   .then(() => {

@@ -7,13 +7,17 @@ export async function create(req, res) {
   const transaction = new Transaction();
   const TransactionRepository = AppDataSource.getRepository(Transaction);
   const body = req.body;
-  console.log(body.content)
-  console.log(body.bank)
   const content = body.content
   const bank = body.bank
   const parser = bankParsers[bank];
   if (parser) {
     const parsedTransaction = parser(content);
+    transaction.amount = parsedTransaction.amount;
+    transaction.deposit = parsedTransaction.type == "deposit";
+    transaction.date = new Date();
+    transaction.bank = bank;
+    transaction.description = body.description
+    await TransactionRepository.save(transaction);
     res.json(parsedTransaction);
   } else {
     res.json({
