@@ -1,9 +1,9 @@
-import { Transaction } from "../entity/Transaction";
+import { Transaction } from "../entity/TransactionEntity";
 import { AppDataSource } from "../data-source";
 import { bankParsers } from "../utils/banks";
 
 
-async function create(req, res) {
+export async function create(req, res) {
   const transaction = new Transaction();
   const TransactionRepository = AppDataSource.getRepository(Transaction);
   const body = req.body;
@@ -22,14 +22,14 @@ async function create(req, res) {
   }
 }
 
-function findAll(req, res) {
+export function findAll(req, res) {
   const TransactionRepository = AppDataSource.getRepository(Transaction);
   TransactionRepository.find().then(data => {
     res.send(data);
   })
 }
 
-async function getSum(req, res) {
+export async function getSum(req, res) {
   const TransactionRepository = AppDataSource.getRepository(Transaction);
   const transactions = await TransactionRepository.find();
   const sum = transactions.reduce((acc, t) => {
@@ -43,10 +43,3 @@ async function getSum(req, res) {
     sum: sum
   });
 }
-
-module.exports = {
-  findAll,
-  create,
-  getSum,
-}
-

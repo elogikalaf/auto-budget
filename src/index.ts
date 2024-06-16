@@ -2,17 +2,14 @@ import "reflect-metadata";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { AppDataSource } from "./data-source"
-const routes = require("./route.ts")
+import route from "./route"
 import "reflect-metadata"
-import { DataSource } from "typeorm"
-import { Transaction } from "./entity/Transaction"
-
 
 AppDataSource.initialize()
   .then(() => {
     const app = express();
     app.use(bodyParser.json());
-    app.use(routes);
+    app.use(route);
     app.listen(3000, () => {
       console.log("Server is running on port 3000");
     });

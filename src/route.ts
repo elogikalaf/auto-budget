@@ -1,5 +1,5 @@
 import { Router } from "express";
-const { create, findAll, getSum } = require("./controller/TransactionController")
+import { create, findAll, getSum } from "./controller/TransactionController"
 const route = Router()
 
 
@@ -8,5 +8,5 @@ route.post("/transactions", create);
 route.get("/transactions", findAll);
 route.get("/transactions/sum", getSum);
 
+export default route;
 
-module.exports = route
