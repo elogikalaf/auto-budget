@@ -2,16 +2,22 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
 export class Transaction {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number
 
-    @Column()
-    amount: number 
+  @Column()
+  amount: number
 
-    @Column()
-    deposit: boolean
+  @Column()
+  deposit: boolean
 
-    @Column()
-    description: string
+  @Column({ nullable: true })
+  description: string
+
+  @Column()
+  date: Date
+
+  @Column({ nullable: true })
+  bank: string
 
 }

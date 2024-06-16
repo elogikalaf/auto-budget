@@ -1,50 +1,52 @@
 import { Transaction } from "../entity/Transaction";
 import { AppDataSource } from "../data-source";
+import { bankParsers } from "../utils/banks";
 
-const withdrawalRegex = /برداشت(.+)/;
-const depositRegex = /واریز(.+)/;
 
-async function parseContent(req, res) {
+async function create(req, res) {
   const transaction = new Transaction();
   const TransactionRepository = AppDataSource.getRepository(Transaction);
-  const content = req.body;
-  console.log(content)
-  const balanceChange = content.split('\n')[1]
-  const withdrawalMatch = balanceChange.match(withdrawalRegex);
-  const depositMatch = balanceChange.match(depositRegex);
-  if (withdrawalMatch) {
-    const amount = parseInt(withdrawalMatch[1].replace(/,/g, ""))
-    console.log(`${amount}, withdraw`)
-    transaction.amount = amount
-    transaction.deposit = false
-    transaction.description = "test"
-    await TransactionRepository.save(transaction);
-    res.send(`${amount}, withdraw`);
-  } else if (depositMatch) {
-    const amount = parseInt(depositMatch[1].replace(/,/g, ""))
-    console.log(`${amount}, deposit`)
-    transaction.amount = amount
-    transaction.deposit = true
-    transaction.description = "test"
-    await TransactionRepository.save(transaction);
-    res.send(`${amount}, deposit`);
+  const body = req.body;
+  console.log(body.content)
+  console.log(body.bank)
+  const content = body.content
+  const bank = body.bank
+  const parser = bankParsers[bank];
+  if (parser) {
+    const parsedTransaction = parser(content);
+    res.json(parsedTransaction);
+  } else {
+    res.json({
+      message: "bank not supported yet!"
+    })
   }
-  else {
-    console.log(content)
-    res.send("failed")
-  }
-  res.end();
 }
 
-function showData(req, res) {
+function findAll(req, res) {
   const TransactionRepository = AppDataSource.getRepository(Transaction);
   TransactionRepository.find().then(data => {
     res.send(data);
   })
 }
 
+async function getSum(req, res) {
+  const TransactionRepository = AppDataSource.getRepository(Transaction);
+  const transactions = await TransactionRepository.find();
+  const sum = transactions.reduce((acc, t) => {
+    if (t.deposit == true) {
+      return acc + t.amount
+    } else {
+      return acc - t.amount
+    }
+  }, 0)
+  res.send({
+    sum: sum
+  });
+}
+
 module.exports = {
-  parseContent,
-  showData
+  findAll,
+  create,
+  getSum,
 }
 
