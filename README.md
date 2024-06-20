@@ -16,4 +16,3 @@
 # Future Goals 
 1. Add more banks
 2. Containerize
-3. Add a Telegram Bank
