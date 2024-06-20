@@ -6,7 +6,7 @@
 3. Run `npm start` command
 
 # list of APIs supported
-1. create -> POST /transactions
+1. create -> POST /transactions {"content": <message>, "bank": <bank name>}
 2. get -> GET /transactions
 3. get sum -> GET /transactions/sum
 4. get last month -> GET /transactions/month
