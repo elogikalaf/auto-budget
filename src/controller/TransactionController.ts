@@ -1,6 +1,8 @@
 import { Transaction } from "../entity/TransactionEntity";
 import { AppDataSource } from "../data-source";
 import { bankParsers } from "../utils/banks";
+import { Between } from 'typeorm';
+
 
 
 export async function create(req, res) {
@@ -31,6 +33,20 @@ export function findAll(req, res) {
   TransactionRepository.find().then(data => {
     res.send(data);
   })
+}
+
+// find transactions where it's withing one month from now
+export async function findWithinOneMonth(req, res) {
+  const TransactionRepository = AppDataSource.getRepository(Transaction);
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const records = await TransactionRepository.find({
+    where: {
+      date: Between(oneMonthAgo, new Date())
+    }
+  });
+  res.send(records);
 }
 
 export async function getSum(req, res) {
