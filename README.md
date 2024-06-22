@@ -5,6 +5,11 @@
 2. Run `npm i` command
 3. Run `npm start` command
 
+or 
+
+docker pull elogikalaf/auto-budget
+docker run -p 3000:3000 elogikalaf/auto-budget
+
 # list of APIs supported
 1. create -> POST /transactions {"content": <message>, "bank": <bank name>}
 2. get -> GET /transactions
