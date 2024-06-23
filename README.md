@@ -7,11 +7,11 @@
 
 or 
 
-docker pull elogikalaf/auto-budget
-docker run -p 3000:3000 elogikalaf/auto-budget
+1. docker pull elogikalaf/auto-budget
+2.docker run -p 3000:3000 elogikalaf/auto-budget
 
 # list of APIs supported
-1. create -> POST /transactions {"content": <message>, "bank": <bank name>}
+1. create -> POST /transactions {"content": <sms message>, "bank": <bank name>}
 2. get -> GET /transactions
 3. get sum -> GET /transactions/sum
 4. get last month -> GET /transactions/month
@@ -20,4 +20,3 @@ docker run -p 3000:3000 elogikalaf/auto-budget
 
 # Future Goals 
 1. Add more banks
-2. Containerize
