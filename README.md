@@ -8,7 +8,7 @@
 or 
 
 1. docker pull elogikalaf/auto-budget
-2.docker run -p 3000:3000 elogikalaf/auto-budget
+2. docker run -p 3000:3000 elogikalaf/auto-budget
 
 # list of APIs supported
 1. create -> POST /transactions {"content": <sms message>, "bank": <bank name>}
