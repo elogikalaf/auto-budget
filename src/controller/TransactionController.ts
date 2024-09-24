@@ -8,9 +8,9 @@ import { Between } from 'typeorm';
 export async function create(req, res) {
   const transaction = new Transaction();
   const TransactionRepository = AppDataSource.getRepository(Transaction);
-  const body = req.body;
-  const content = body.content
-  const bank = body.bank
+  const content = req.body.data;
+  const note = req.body.user_input;
+  const bank = "Bank Mellat"
   const parser = bankParsers[bank];
   if (parser) {
     const parsedTransaction = parser(content);
@@ -18,7 +18,7 @@ export async function create(req, res) {
     transaction.deposit = parsedTransaction.type == "deposit";
     transaction.date = new Date();
     transaction.bank = bank;
-    transaction.description = body.description
+    transaction.description = note
     await TransactionRepository.save(transaction);
     res.json(parsedTransaction);
   } else {
