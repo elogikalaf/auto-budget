@@ -4,7 +4,7 @@ const route = Router()
 
 
 
-route.post("/transactions", create);
+route.post("/", create);
 route.get("/transactions", findAll);
 route.get("/transactions/sum", getSum);
 route.get("/transactions/month", findWithinOneMonth);
